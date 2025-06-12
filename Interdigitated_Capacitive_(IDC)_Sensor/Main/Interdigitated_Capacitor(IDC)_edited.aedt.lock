@@ -1,0 +1,42 @@
+$begin 'ConnectionParameters'
+	DesktopProcessID=126048
+	DesktopProcessPath='E:\\IIIT_H_Academics\\Ansys Student\\v242\\Win64\\ansysedtsv.exe'
+	LaunchedByWB=false
+	GRPCPort=50051
+	$begin 'DesktopStubBlock'
+		$begin 'CommDetails'
+			TransportType=1
+			IPAddress='172.19.192.1'
+			ListenPort='53811'
+			IPAddressVector[2: '169.254.131.219', '10.2.141.197']
+		$end 'CommDetails'
+		$begin 'Marshall'
+			InstanceID=503
+			ProcID=126048
+			InterfaceID=1
+			FactoryIntID='DesktopInterfaceForWBProxyStubFactory'
+		$end 'Marshall'
+	$end 'DesktopStubBlock'
+	$begin 'DesktopBackgroundObjStubBlock'
+		$begin 'CommDetails'
+			TransportType=1
+			IPAddress='172.19.192.1'
+			ListenPort='53811'
+			IPAddressVector[2: '169.254.131.219', '10.2.141.197']
+		$end 'CommDetails'
+		$begin 'Marshall'
+			InstanceID=505
+			ProcID=126048
+			InterfaceID=2
+			FactoryIntID='DesktopInterfaceForWBProxyStubFactory'
+		$end 'Marshall'
+	$end 'DesktopBackgroundObjStubBlock'
+	$begin 'WebClientBlock'
+		Url='http://Eve:12754/?server=ws://Eve:12242&token=15b24f59-e7f8-1bcd-8b9e-61340a2c46e6&startTab=monitor/graph'
+		SecureUrl='https://Eve:13010/?server=wss://Eve:12498&token=15b24f59-e7f8-1bcd-8b9e-61340a2c46e6&startTab=monitor/graph'
+		WsHost='Eve'
+		WsPort=12242
+		WssPort=12498
+		Token='15b24f59-e7f8-1bcd-8b9e-61340a2c46e6'
+	$end 'WebClientBlock'
+$end 'ConnectionParameters'
