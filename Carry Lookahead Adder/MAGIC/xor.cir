@@ -1,0 +1,55 @@
+2023102062_Aikya
+.include TSMC_180nm.txt
+.param SUPPLY=1.8
+.param LAMBDA=0.09u
+.global gnd vdd
+.param width_P={20*LAMBDA}
+.param width_N={10*LAMBDA}
+Vdd	vdd	gnd	'SUPPLY'
+
+vdata A gnd pulse(0 1.8 0ns 0ns 0ns 30ns 60ns)
+vclk B gnd pulse(0 1.8 0ns 0ns 0ns 20ns 40ns)
+
+* SPICE3 file created from xor.ext - technology: scmos
+
+.option scale=0.01u
+
+M1000 AxorB B A w_n112_20# CMOSP w=108 l=18
++  ad=4860 pd=306 as=4860 ps=306
+M1001 Ac A gnd Gnd CMOSN w=54 l=18
++  ad=4860 pd=396 as=2430 ps=198
+M1002 AxorB B Ac Gnd CMOSN w=54 l=18
++  ad=2430 pd=198 as=0 ps=0
+M1003 Ac A vdd w_n150_12# CMOSP w=108 l=18
++  ad=4860 pd=306 as=4860 ps=306
+C0 A B 0.02fF
+C1 A w_n112_20# 0.06fF
+C2 AxorB B 0.04fF
+C3 AxorB w_n112_20# 0.03fF
+C4 gnd Ac 0.10fF
+C5 w_n150_12# vdd 0.06fF
+C6 B Ac 0.11fF
+C7 w_n112_20# B 0.06fF
+C8 A w_n150_12# 0.06fF
+C9 A vdd 0.02fF
+C10 Ac w_n150_12# 0.03fF
+C11 AxorB A 0.15fF
+C12 Ac vdd 0.15fF
+C13 A gnd 0.05fF
+C14 A Ac 0.04fF
+C15 AxorB Ac 0.06fF
+C16 gnd Gnd 0.10fF
+C17 AxorB Gnd 0.06fF
+C18 A Gnd 0.19fF
+C19 Ac Gnd 0.12fF
+C20 vdd Gnd 0.05fF
+C21 B Gnd 0.14fF
+C22 w_n112_20# Gnd 0.58fF
+C23 w_n150_12# Gnd 0.58fF
+.tran 0.01n 250n
+.control
+set color0 = white
+run
+plot v(AxorB) 4+v(A) 2+v(B)
+.endc
+* drain gate source body

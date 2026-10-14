@@ -1,0 +1,14 @@
+magic
+tech scmos
+timestamp 1732094130
+<< metal1 >>
+rect 33 28 46 32
+use inv  inv_0
+timestamp 1732090394
+transform 1 0 46 0 1 28
+box 0 -15 24 33
+use nand  nand_0
+timestamp 1618580231
+transform 1 0 0 0 1 35
+box 0 -35 34 27
+<< end >>

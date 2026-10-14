@@ -1,0 +1,63 @@
+2023102062_Aikya
+.include TSMC_180nm.txt
+.param SUPPLY=1.8
+.param LAMBDA=0.09u
+.global gnd vdd
+.param width_P={6*LAMBDA}
+.param width_N={6*LAMBDA}
+Vdd	vdd	gnd	'SUPPLY'
+
+vdata A gnd pulse(0 1.8 0ns 0ns 0ns 30ns 60ns)
+vclk B gnd pulse(0 1.8 0ns 0ns 0ns 20ns 40ns)
+
+
+.option scale=0.09u
+
+M1000 jn1 A vdd vdd CMOSP w=24 l=2
++  ad=192 pd=64 as=120 ps=58
+M1001 gnd B inv_0/in Gnd CMOSN w=6 l=2
++  ad=60 pd=44 as=48 ps=28
+M1002 inv_0/in B jn1 vdd CMOSP w=24 l=2
++  ad=120 pd=58 as=0 ps=0
+M1003 inv_0/in A gnd Gnd CMOSN w=6 l=2
++  ad=0 pd=0 as=0 ps=0
+M1004 out inv_0/in vdd vdd CMOSP w=12 l=2
++  ad=60 pd=34 as=60 ps=34
+M1005 out inv_0/in gnd Gnd CMOSN w=6 l=2
++  ad=30 pd=22 as=30 ps=22
+C0 inv_0/in gnd 0.18fF
+C1 inv_0/in out 0.04fF
+C2 vdd vdd 0.08fF
+C3 inv_0/in vdd 0.02fF
+C4 A gnd 0.05fF
+C5 out vdd 0.03fF
+C6 vdd vdd 0.06fF
+C7 inv_0/in A 0.02fF
+C8 inv_0/in vdd 0.06fF
+C9 inv_0/in vdd 0.05fF
+C10 out gnd 0.10fF
+C11 inv_0/in B 0.16fF
+C12 vdd A 0.06fF
+C13 inv_0/in vdd 0.03fF
+C14 B A 0.24fF
+C15 inv_0/in gnd 0.05fF
+C16 vdd out 0.15fF
+C17 B vdd 0.06fF
+C18 gnd Gnd 0.10fF
+C19 out Gnd 0.05fF
+C20 vdd Gnd 0.05fF
+C21 inv_0/in Gnd 0.31fF
+C22 vdd Gnd 0.58fF
+C23 gnd Gnd 0.13fF
+C24 vdd Gnd 0.05fF
+C25 B Gnd 0.20fF
+C26 A Gnd 0.18fF
+C27 vdd Gnd 1.23fF
+
+.tran 0.01n 250n
+.control
+set color0 = white
+run
+plot v(out) 4+v(A) 2+v(B)
+.endc
+* drain gate source body

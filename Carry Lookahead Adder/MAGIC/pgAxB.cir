@@ -1,0 +1,97 @@
+2023102072_Hasitha
+.include TSMC_180nm.txt
+.param SUPPLY=1.8
+.param LAMBDA=0.09u
+.global gnd vdd
+.param width_P={20*LAMBDA}
+.param width_N={10*LAMBDA}
+Vdd	vdd	gnd	'SUPPLY'
+
+vdata A gnd pulse(0 1.8 0ns 0ns 0ns 30ns 60ns)
+vclk B gnd pulse(0 1.8 0ns 0ns 0ns 20ns 40ns)
+
+* SPICE3 file created from pgAxB.ext - technology: scmos
+
+.option scale=0.09u
+
+M1000 nor_0/a_13_6# A vdd nor_0/w_0_0# CMOSP w=24 l=2
++  ad=192 pd=64 as=240 ps=126
+M1001 gnd B P Gnd CMOSN w=6 l=2
++  ad=120 pd=78 as=48 ps=28
+M1002 P B nor_0/a_13_6# nor_0/w_0_0# CMOSP w=24 l=2
++  ad=120 pd=58 as=0 ps=0
+M1003 P A gnd Gnd CMOSN w=6 l=2
++  ad=0 pd=0 as=0 ps=0
+M1004 nand_0/a_13_n26# A gnd Gnd CMOSN w=12 l=2
++  ad=96 pd=40 as=0 ps=0
+M1005 nand_0/out A vdd nand_0/w_0_0# CMOSP w=12 l=2
++  ad=96 pd=40 as=0 ps=0
+M1006 vdd B nand_0/out nand_0/w_0_0# CMOSP w=12 l=2
++  ad=0 pd=0 as=0 ps=0
+M1007 nand_0/out B nand_0/a_13_n26# Gnd CMOSN w=12 l=2
++  ad=60 pd=34 as=0 ps=0
+M1008 AxB B Ac Gnd CMOSN w=6 l=2
++  ad=30 pd=22 as=60 ps=44
+M1009 AxB B A w_41_27# CMOSP w=12 l=2
++  ad=60 pd=34 as=1 ps=1
+M1010 Ac A vdd w_3_19# CMOSP w=12 l=2
++  ad=60 pd=34 as=60 ps=34
+M1011 Ac A gnd Gnd CMOSN w=6 l=2
++  ad=0 pd=0 as=30 ps=22
+C0 A vdd 0.02fF
+C1 A vdd 0.02fF
+C2 Ac vdd 0.15fF
+C3 A w_41_27# 0.06fF
+C4 B P 0.16fF
+C5 A w_3_19# 0.06fF
+C6 B AxB 0.04fF
+C7 nand_0/w_0_0# B 0.06fF
+C8 Ac w_3_19# 0.03fF
+C9 P gnd 0.18fF
+C10 w_3_19# vdd 0.06fF
+C11 B gnd 0.05fF
+C12 nor_0/w_0_0# P 0.05fF
+C13 A P 0.02fF
+C14 nand_0/w_0_0# nand_0/out 0.04fF
+C15 A AxB 0.15fF
+C16 nand_0/out B 0.13fF
+C17 A nand_0/w_0_0# 0.06fF
+C18 nor_0/w_0_0# B 0.06fF
+C19 A B 1.43fF
+C20 vdd P 0.03fF
+C21 Ac AxB 0.06fF
+C22 nand_0/w_0_0# vdd 0.10fF
+C23 Ac B 0.20fF
+C24 nand_0/out gnd 0.03fF
+C25 A gnd 0.05fF
+C26 A gnd 0.05fF
+C27 B vdd 0.04fF
+C28 Ac gnd 0.10fF
+C29 AxB w_41_27# 0.03fF
+C30 B w_41_27# 0.06fF
+C31 A nor_0/w_0_0# 0.06fF
+C32 nand_0/out vdd 0.28fF
+C33 Ac A 0.04fF
+C34 nor_0/w_0_0# vdd 0.08fF
+C35 gnd Gnd 0.10fF
+C36 AxB Gnd 0.06fF
+C37 Ac Gnd 0.12fF
+C38 vdd Gnd 0.05fF
+C39 w_41_27# Gnd 0.58fF
+C40 w_3_19# Gnd 0.58fF
+C41 nand_0/out Gnd 0.08fF
+C42 nand_0/w_0_0# Gnd 0.82fF
+C43 gnd Gnd 0.26fF
+C44 P Gnd 0.09fF
+C45 vdd Gnd 0.11fF
+C46 B Gnd 0.63fF
+C47 A Gnd 0.50fF
+C48 nor_0/w_0_0# Gnd 1.23fF
+
+.tran 0.01n 250n
+.control
+set color0 = white
+run
+plot v(nand_0/out) 2+(P) 6+v(A) 4+v(B)
+.endc
+* drain gate source body

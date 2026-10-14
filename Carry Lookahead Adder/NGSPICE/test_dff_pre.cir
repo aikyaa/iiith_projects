@@ -1,0 +1,60 @@
+2023102062_Aikya
+.include TSMC_180nm.txt
+.param SUPPLY=1.8
+.param LAMBDA=0.09u
+.global gnd vdd
+.param width_P={12*LAMBDA}
+.param width_N={6*LAMBDA}
+Vdd	vdd	gnd	'SUPPLY'
+
+vdata D gnd pulse(0 1.8 0ns 0ns 0ns 30ns 60ns)
+vclk clk gnd pulse(0 1.8 0ns 0ns 0ns 20ns 40ns)
+
+.subckt dff_pos in clk Dout
+M1 mid in gnd gnd CMOSN l={2*LAMBDA} w={width_n} 
++ ad={5*width_n*LAMBDA} as={5*width_n*LAMBDA} pd={10*LAMBDA+2*width_n} ps={10*LAMBDA+2*width_n} 
+
+M2 N014 clk gnd gnd CMOSN l={2*LAMBDA} w={width_n} 
++ ad={5*width_n*LAMBDA} as={5*width_n*LAMBDA} pd={10*LAMBDA+2*width_n} ps={10*LAMBDA+2*width_n} 
+
+M3 N015 jn5 gnd gnd CMOSN l={2*LAMBDA} w={width_n} 
++ ad={5*width_n*LAMBDA} as={5*width_n*LAMBDA} pd={10*LAMBDA+2*width_n} ps={10*LAMBDA+2*width_n} 
+
+M4 Dout jn7 gnd gnd CMOSN l={2*LAMBDA} w={width_n} 
++ ad={5*width_n*LAMBDA} as={5*width_n*LAMBDA} pd={10*LAMBDA+2*width_n} ps={10*LAMBDA+2*width_n} 
+
+M5 jn7 clk N015 gnd CMOSN l={2*LAMBDA} w={width_n} 
++ ad={5*width_n*LAMBDA} as={5*width_n*LAMBDA} pd={10*LAMBDA+2*width_n} ps={10*LAMBDA+2*width_n} 
+
+M6 jn5 mid N014 gnd CMOSN l={2*LAMBDA} w={width_n} 
++ ad={5*width_n*LAMBDA} as={5*width_n*LAMBDA} pd={10*LAMBDA+2*width_n} ps={10*LAMBDA+2*width_n} 
+
+M7 vdd in jn9 vdd CMOSP l={2*LAMBDA} w={2*width_p} 
++ ad={5*(2*width_p)*LAMBDA} as={5*(2*width_p)*LAMBDA} pd={10*LAMBDA+2*(2*width_p)} ps={10*LAMBDA+2*(2*width_p)}
+
+M8 jn9 clk mid vdd CMOSP l={2*LAMBDA} w={2*width_p} 
++ ad={5*(2*width_p)*LAMBDA} as={5*(2*width_p)*LAMBDA} pd={10*LAMBDA+2*(2*width_p)} ps={10*LAMBDA+2*(2*width_p)} 
+
+M9 vdd clk jn5 vdd CMOSP l={2*LAMBDA} w={width_p} 
++ ad={5*width_p*LAMBDA} as={5*width_p*LAMBDA} pd={10*LAMBDA+2*width_p} ps={10*LAMBDA+2*width_p}
+
+M10 vdd jn5 jn7 vdd CMOSP l={2*LAMBDA} w={width_p} 
++ ad={5*width_p*LAMBDA} as={5*width_p*LAMBDA} pd={10*LAMBDA+2*width_p} ps={10*LAMBDA+2*width_p}
+
+M11 vdd jn7 Dout vdd CMOSP l={2*LAMBDA} w={width_p} 
++ ad={5*width_p*LAMBDA} as={5*width_p*LAMBDA} pd={10*LAMBDA+2*width_p} ps={10*LAMBDA+2*width_p}
+
+.ends dff_pos
+
+x1 D clk out dff_pos
+
+.measure tran tclk_q TRIG v(clk) VAL=0.9 RISE=3 TARG v(out) VAL=0.9 RISE=1
+.measure tran tclk_q_f TRIG v(clk) VAL=0.9 RISE=2 TARG v(out) VAL=0.9 FALL=1
+
+.tran 0.01n 250n
+
+.control
+set color0 = white
+run
+plot v(out) 2+v(D) 4+v(clk)
+.endc

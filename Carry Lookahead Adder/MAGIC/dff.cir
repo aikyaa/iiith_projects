@@ -1,0 +1,103 @@
+2023102062_Aikya
+.include TSMC_180nm.txt
+.param SUPPLY=1.8
+.param LAMBDA=0.09u
+.global gnd vdd
+.param width_P={20*LAMBDA}
+.param width_N={10*LAMBDA}
+Vdd	vdd	gnd	'SUPPLY'
+
+vdata D gnd pulse(0 1.8 0ns 0ns 0ns 30ns 60ns)
+vclk clk gnd pulse(0 1.8 0ns 0ns 0ns 20ns 40ns)
+* SPICE3 file created from dff.ext - technology: scmos
+
+.option scale=0.09u
+
+M1000 inv_0/op jn3 inv_0/vdd inv_0/w_0_6# CMOSP w=12 l=2
++  ad=60 pd=34 as=60 ps=34
+M1001 inv_0/op jn3 inv_0/gnd Gnd CMOSN w=6 l=2
++  ad=30 pd=22 as=30 ps=22
+M1002 jn3 jn2 vdd w_11_25# CMOSP w=12 l=2
++  ad=60 pd=34 as=240 ps=126
+M1003 a_17_4# jn2 gnd Gnd CMOSN w=6 l=2
++  ad=60 pd=44 as=90 ps=66
+M1004 jn2 jn1 vdd w_n33_25# CMOSP w=12 l=2
++  ad=60 pd=34 as=0 ps=0
+M1005 jn3 jn1 a_17_4# Gnd CMOSN w=6 l=2
++  ad=30 pd=22 as=0 ps=0
+M1006 jn2 jn1 a_n27_5# Gnd CMOSN w=6 l=2
++  ad=30 pd=22 as=60 ps=44
+M1007 a_n60_n13# jn1 a_n67_n13# w_n73_n19# CMOSP w=24 l=2
++  ad=240 pd=116 as=120 ps=58
+M1008 a_n60_n13# D vdd w_n73_27# CMOSP w=24 l=2
++  ad=0 pd=0 as=0 ps=0
+M1009 a_n27_5# jn1 gnd Gnd CMOSN w=6 l=2
++  ad=0 pd=0 as=0 ps=0
+M1010 jn1 D gnd Gnd CMOSN w=6 l=2
++  ad=30 pd=22 as=0 ps=0
+C0 jn3 inv_0/vdd 0.02fF
+C1 w_n73_n19# a_n67_n13# 0.03fF
+C2 a_n60_n13# a_n67_n13# 0.25fF
+C3 jn1 jn2 0.21fF
+C4 jn1 w_n73_n19# 0.09fF
+C5 w_11_25# vdd 0.06fF
+C6 w_n33_25# jn2 0.03fF
+C7 inv_0/w_0_6# inv_0/vdd 0.06fF
+C8 a_n60_n13# w_n73_27# 0.05fF
+C9 jn1 jn3 0.04fF
+C10 jn3 inv_0/gnd 0.05fF
+C11 gnd jn1 0.16fF
+C12 jn2 vdd 0.20fF
+C13 jn2 a_17_4# 0.08fF
+C14 a_n60_n13# vdd 0.27fF
+C15 jn3 vdd 0.15fF
+C16 jn1 D 0.22fF
+C17 jn3 a_17_4# 0.06fF
+C18 D w_n73_27# 0.08fF
+C19 gnd a_17_4# 0.10fF
+C20 w_11_25# jn2 0.10fF
+C21 jn1 a_n27_5# 0.18fF
+C22 jn3 inv_0/op 0.04fF
+C23 w_11_25# jn3 0.03fF
+C24 inv_0/w_0_6# inv_0/op 0.03fF
+C25 D vdd 0.03fF
+C26 w_n73_n19# a_n60_n13# 0.05fF
+C27 jn1 a_n67_n13# 0.04fF
+C28 jn2 jn3 0.04fF
+C29 gnd jn2 0.05fF
+C30 jn1 w_n33_25# 0.10fF
+C31 inv_0/w_0_6# jn3 0.06fF
+C32 inv_0/vdd inv_0/op 0.15fF
+C33 jn1 vdd 0.05fF
+C34 a_n60_n13# D 0.04fF
+C35 jn1 a_17_4# 0.03fF
+C36 w_n73_27# vdd 0.07fF
+C37 w_n33_25# vdd 0.06fF
+C38 gnd D 0.05fF
+C39 a_n27_5# jn2 0.09fF
+C40 inv_0/op inv_0/gnd 0.10fF
+C41 gnd a_n27_5# 0.10fF
+C42 gnd Gnd 0.20fF
+C43 jn1 Gnd 0.62fF
+C44 a_17_4# Gnd 0.02fF
+C45 a_n27_5# Gnd 0.11fF
+C46 vdd Gnd 0.01fF
+C47 jn2 Gnd 0.21fF
+C48 a_n60_n13# Gnd 0.03fF
+C49 D Gnd 0.45fF
+C50 w_n73_n19# Gnd 0.87fF
+C51 w_n33_25# Gnd 0.58fF
+C52 w_n73_27# Gnd 0.53fF
+C53 inv_0/gnd Gnd 0.10fF
+C54 inv_0/op Gnd 0.05fF
+C55 inv_0/vdd Gnd 0.05fF
+C56 jn3 Gnd 0.12fF
+C57 inv_0/w_0_6# Gnd 0.58fF
+
+.tran 0.01n 250n
+.control
+set color0 = white
+run
+plot v(inv_0/op) 4+v(D) 2+v(clk)
+.endc
+* drain gate source body

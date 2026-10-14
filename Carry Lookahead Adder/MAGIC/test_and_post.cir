@@ -1,0 +1,65 @@
+2023102062_Aikya
+.include TSMC_180nm.txt
+.param SUPPLY=1.8
+.param LAMBDA=0.09u
+.global gnd vdd
+.param width_P={6*LAMBDA}
+.param width_N={6*LAMBDA}
+Vdd	vdd	gnd	'SUPPLY'
+
+vdata nand_0/a gnd pulse(0 1.8 0ns 0ns 0ns 30ns 60ns)
+vclk nand_0/b gnd pulse(0 1.8 0ns 0ns 0ns 20ns 40ns)
+
+
+.option scale=0.09u
+
+M1000 inv_0/op inv_0/in inv_0/vdd vdd CMOSP w=12 l=2
++  ad=60 pd=34 as=60 ps=34
+M1001 inv_0/op inv_0/in inv_0/gnd Gnd CMOSN w=6 l=2
++  ad=30 pd=22 as=30 ps=22
+M1002 nand_0/a_13_n26# nand_0/a gnd Gnd CMOSN w=12 l=2
++  ad=96 pd=40 as=60 ps=34
+M1003 inv_0/in nand_0/a vdd vdd CMOSP w=12 l=2
++  ad=96 pd=40 as=120 ps=68
+M1004 vdd nand_0/b inv_0/in vdd CMOSP w=12 l=2
++  ad=0 pd=0 as=0 ps=0
+M1005 inv_0/in nand_0/b nand_0/a_13_n26# Gnd CMOSN w=12 l=2
++  ad=60 pd=34 as=0 ps=0
+C0 nand_0/b inv_0/in 0.13fF
+C1 vdd inv_0/in 0.28fF
+C2 inv_0/vdd vdd 0.06fF
+C3 nand_0/b nand_0/a 0.24fF
+C4 inv_0/op inv_0/in 0.04fF
+C5 vdd nand_0/a 0.02fF
+C6 inv_0/gnd inv_0/in 0.05fF
+C7 inv_0/vdd inv_0/in 0.02fF
+C8 vdd nand_0/b 0.06fF
+C9 vdd inv_0/in 0.04fF
+C10 vdd vdd 0.10fF
+C11 inv_0/gnd inv_0/op 0.10fF
+C12 inv_0/op inv_0/vdd 0.15fF
+C13 vdd inv_0/in 0.06fF
+C14 vdd nand_0/a 0.06fF
+C15 nand_0/b gnd 0.05fF
+C16 inv_0/op vdd 0.03fF
+C17 inv_0/in gnd 0.03fF
+C18 gnd Gnd 0.13fF
+C19 inv_0/in Gnd 0.27fF
+C20 vdd Gnd 0.06fF
+C21 nand_0/b Gnd 0.20fF
+C22 nand_0/a Gnd 0.17fF
+C23 vdd Gnd 0.82fF
+C24 inv_0/gnd Gnd 0.10fF
+C25 inv_0/op Gnd 0.05fF
+C26 inv_0/vdd Gnd 0.05fF
+C27 vdd Gnd 0.58fF
+
+Rv1 inv_0/vdd vdd 0.01
+Rg1 inv_0/gnd gnd 0.01
+.tran 0.01n 250n
+.control
+set color0 = white
+run
+plot v(inv_0/op) 4+v(nand_0/a) 2+v(nand_0/b)
+.endc
+* drain gate source body

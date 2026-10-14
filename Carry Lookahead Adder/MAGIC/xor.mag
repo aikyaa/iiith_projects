@@ -1,0 +1,66 @@
+magic
+tech scmos
+timestamp 1732088672
+<< nwell >>
+rect -150 12 -126 36
+rect -112 20 -88 44
+<< ntransistor >>
+rect -101 6 -99 12
+rect -139 -2 -137 4
+<< ptransistor >>
+rect -139 18 -137 30
+rect -101 26 -99 38
+<< ndiffusion >>
+rect -102 6 -101 12
+rect -99 6 -98 12
+rect -140 -2 -139 4
+rect -137 -2 -136 4
+<< pdiffusion >>
+rect -140 18 -139 30
+rect -137 18 -136 30
+rect -102 26 -101 38
+rect -99 26 -98 38
+<< ndcontact >>
+rect -106 6 -102 12
+rect -98 6 -94 12
+rect -144 -2 -140 4
+rect -136 -2 -132 4
+<< pdcontact >>
+rect -144 18 -140 30
+rect -136 18 -132 30
+rect -106 26 -102 38
+rect -98 26 -94 38
+<< polysilicon >>
+rect -101 38 -99 41
+rect -139 30 -137 33
+rect -139 4 -137 18
+rect -101 12 -99 26
+rect -101 3 -99 6
+rect -139 -5 -137 -2
+<< polycontact >>
+rect -143 7 -139 11
+rect -105 15 -101 19
+<< metal1 >>
+rect -112 44 -88 47
+rect -150 36 -126 39
+rect -106 38 -103 44
+rect -144 30 -141 36
+rect -150 7 -143 10
+rect -135 10 -132 18
+rect -113 15 -105 18
+rect -97 18 -94 26
+rect -97 15 -87 18
+rect -97 12 -94 15
+rect -135 7 -106 10
+rect -135 4 -132 7
+rect -144 -6 -141 -2
+rect -150 -9 -126 -6
+<< labels >>
+rlabel metal1 -132 7 -106 10 1 Ac
+rlabel metal1 -150 7 -143 10 3 A
+rlabel metal1 -113 15 -105 18 1 B
+rlabel metal1 -94 15 -87 18 7 AxorB
+rlabel metal1 -112 44 -88 47 5 A
+rlabel metal1 -150 -9 -126 -6 1 gnd
+rlabel metal1 -150 36 -126 39 1 vdd
+<< end >>

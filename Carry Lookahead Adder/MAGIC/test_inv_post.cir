@@ -1,0 +1,39 @@
+2023102062_Aikya
+.include TSMC_180nm.txt
+.param SUPPLY=1.8
+.param LAMBDA=0.09u
+.global gnd vdd
+.param width_P={12*LAMBDA}
+.param width_N={6*LAMBDA}
+Vdd	vdd	gnd	'SUPPLY'
+
+vdata in gnd pulse(0 1.8 0ns 0ns 0ns 30ns 60ns)
+
+
+.option scale=0.09u
+
+M1000 op in vdd vdd CMOSP w=12 l=2
++  ad=60 pd=34 as=60 ps=34
+M1001 op in gnd  gnd CMOSN w=6 l=2
++  ad=30 pd=22 as=30 ps=22
+C0 in vdd 0.02fF
+C1 in gnd 0.05fF
+C2 vdd op 0.03fF
+C3 vdd vdd 0.06fF
+C4 vdd op 0.15fF
+C5 vdd in 0.06fF
+C6 op gnd 0.10fF
+C7 in op 0.04fF
+C8 gnd  gnd 0.10fF
+C9 op  gnd 0.05fF
+C10 vdd  gnd 0.05fF
+C11 in  gnd 0.14fF
+C12 vdd  gnd 0.58fF
+
+.tran 0.01n 250n
+.control
+set color0 = white
+run
+plot v(op) 2+v(in)
+.endc
+* drain gate source body

@@ -1,0 +1,48 @@
+2023102062_Aikya
+.include TSMC_180nm.txt
+.param SUPPLY=1.8V
+.param LAMBDA=0.09u
+.param length={2*LAMBDA}
+.param width={6*LAMBDA}
+.global gnd vdd
+
+Vdd vdd gnd 'SUPPLY'
+v1 A gnd pulse(0 1.8 0ns 0ns 0ns 30ns 60ns)
+v2 B gnd pulse(0 1.8 0ns 0ns 0ns 20ns 40ns)
+
+
+.option scale=0.09u
+
+M1000 a_13_n26# a gnd Gnd  CMOSN w=12 l=2
++  ad=96 pd=40 as=60 ps=34
+M1001 out a vdd vdd  CMOSP w=12 l=2
++  ad=96 pd=40 as=120 ps=68
+M1002 vdd b out vdd  CMOSP w=12 l=2
++  ad=0 pd=0 as=0 ps=0
+M1003 out b a_13_n26# Gnd  CMOSN w=12 l=2
++  ad=60 pd=34 as=0 ps=0
+C0 b out 0.13fF
+C1 b vdd 0.06fF
+C2 out vdd 0.28fF
+C3 vdd vdd 0.10fF
+C4 a vdd 0.06fF
+C5 gnd out 0.03fF
+C6 out vdd 0.04fF
+C7 b a 0.24fF
+C8 a vdd 0.02fF
+C9 gnd b 0.05fF
+C10 gnd Gnd 0.13fF
+C11 out Gnd 0.08fF
+C12 vdd Gnd 0.06fF
+C13 b Gnd 0.20fF
+C14 a Gnd 0.17fF
+C15 vdd Gnd 0.82fF
+
+.tran 0.01n 250n
+
+.control
+set color0 = white
+
+run
+plot v(out) v(A)+4 v(B)+2
+.endc

@@ -1,0 +1,189 @@
+*2023102062_Aikya
+.include TSMC_180nm.txt
+.param SUPPLY=1.8V
+.param LAMBDA=0.09u
+.param width_n={6*LAMBDA}
+.param width_p={12*LAMBDA}
+.global gnd vdd
+
+Vdd vdd gnd 'SUPPLY'
+
+vclk clk gnd pulse(0 1.8 0 0.05n 0.05n 0.7n 1.5n)
+va0 A0b gnd pulse(1.8 0 0 0 0 10n 20n)
+vb0 B0b gnd pulse(1.8 0 0 0 0 15n 30n)
+va1 A1b gnd pulse(0 1.8 0 0 0 20n 40n)
+vb1 B1b gnd pulse(1.8 0 0 0 0 25n 50n)
+va2 A2b gnd pulse(0 1.8 0 0 0 30n 60n)
+vb2 B2b gnd pulse(1.8 0 0 0 0 35n 70n)
+va3 A3b gnd pulse(1.8 1.8 0 0 0 40n 80n)
+vb3 B3b gnd pulse(1.8 0 0 0 0 45n 90n)
+vc0 C0b gnd pulse(0 0 0 0 0 0 0)
+
+
+.subckt inv A Anot
+M1 Anot A vdd vdd CMOSP l={2*LAMBDA} w={2*width_n} 
++ad={5*2*width_n *LAMBDA} as={5*2*width_n *LAMBDA} pd={10*LAMBDA+2*2*width_n} ps={10*LAMBDA+2*2*width_n}
+M2 Anot A gnd gnd CMOSN l={2*LAMBDA} w={width_n} 
++ad={5*width_n *LAMBDA} as={5*width_n *LAMBDA} pd={10*LAMBDA+2*width_n} ps={10*LAMBDA+2*width_n}
+.ends inv
+
+.subckt nor A B AnorB
+M4 vdd B jn vdd CMOSP l={2*LAMBDA} w={4*width_n} 
++ad={5*4*width_n *LAMBDA} as={5*4*width_n *LAMBDA} pd={10*LAMBDA+2*4*width_n} ps={10*LAMBDA+2*4*width_n}
+M1 jn A AnorB vdd CMOSP l={2*LAMBDA} w={4*width_n} 
++ad={5*4*width_n *LAMBDA} as={5*4*width_n *LAMBDA} pd={10*LAMBDA+2*4*width_n} ps={10*LAMBDA+2*4*width_n}
+M2 AnorB A gnd gnd CMOSN l={2*LAMBDA} w={width_n} 
++ad={5*width_n *LAMBDA} as={5*width_n *LAMBDA} pd={10*LAMBDA+2*width_n} ps={10*LAMBDA+2*width_n}
+M3 AnorB B gnd gnd CMOSN l={2*LAMBDA} w={width_n} 
++ad={5*width_n *LAMBDA} as={5*width_n *LAMBDA} pd={10*LAMBDA+2*width_n} ps={10*LAMBDA+2*width_n}
+.ends nor
+
+.subckt nand A B AnandB
+M1 VDD A AnandB vdd CMOSP l={2*LAMBDA} w={2*width_n} ad={5*2*width_n *LAMBDA} as={5*2*width_n *LAMBDA} pd={10*LAMBDA+2*2*width_n} ps={10*LAMBDA+2*2*width_n}
+M2 AnandB A jn gnd CMOSN l={2*LAMBDA} w={2*width_n} ad={5*2*width_n *LAMBDA} as={5*2*width_n *LAMBDA} pd={10*LAMBDA+2*2*width_n} ps={10*LAMBDA+2*2*width_n}
+M3 jn B gnd gnd CMOSN l={2*LAMBDA} w={2*width_n} ad={5*2*width_n *LAMBDA} as={5*2*width_n *LAMBDA} pd={10*LAMBDA+2*2*width_n} ps={10*LAMBDA+2*2*width_n}
+M4 VDD B AnandB vdd CMOSP l={2*LAMBDA} w={2*width_n} ad={5*2*width_n *LAMBDA} as={5*2*width_n *LAMBDA} pd={10*LAMBDA+2*2*width_n} ps={10*LAMBDA+2*2*width_n}
+.ends nand
+
+.subckt xor A B AxorB
+M5 A B AxorB vdd CMOSP l={2*LAMBDA} w={2*width_n} ad={5*2*width_n *LAMBDA} as={5*2*width_n *LAMBDA} pd={10*LAMBDA+2*2*width_n} ps={10*LAMBDA+2*2*width_n}
+M6 AxorB B Ac gnd CMOSN l={2*LAMBDA} w={width_n} ad={5*width_n *LAMBDA} as={5*width_n *LAMBDA} pd={10*LAMBDA+2*width_n} ps={10*LAMBDA+2*width_n}
+M7 VDD A Ac vdd CMOSP l={2*LAMBDA} w={2*width_n} ad={5*2*width_n *LAMBDA} as={5*2*width_n *LAMBDA} pd={10*LAMBDA+2*2*width_n} ps={10*LAMBDA+2*2*width_n}
+M8 Ac A 0 gnd CMOSN l={2*LAMBDA} w={width_n} ad={5*width_n *LAMBDA} as={5*width_n *LAMBDA} pd={10*LAMBDA+2*width_n} ps={10*LAMBDA+2*width_n}
+.ends xor
+
+.subckt and A B AandB
+x2 A B AandBnot nand
+x1 AandBnot AandB inv
+.ends and
+
+.subckt or A B AorB
+x2 A B AorBnot nor
+x1 AorBnot AorB inv
+.ends or
+
+.subckt dff_pos in clk Dout
+M1 mid in gnd gnd CMOSN l={2*LAMBDA} w={width_n} 
++ ad={5*width_n*LAMBDA} as={5*width_n*LAMBDA} pd={10*LAMBDA+2*width_n} ps={10*LAMBDA+2*width_n} 
+
+M2 N014 clk gnd gnd CMOSN l={2*LAMBDA} w={width_n} 
++ ad={5*width_n*LAMBDA} as={5*width_n*LAMBDA} pd={10*LAMBDA+2*width_n} ps={10*LAMBDA+2*width_n} 
+
+M3 N015 jn5 gnd gnd CMOSN l={2*LAMBDA} w={width_n} 
++ ad={5*width_n*LAMBDA} as={5*width_n*LAMBDA} pd={10*LAMBDA+2*width_n} ps={10*LAMBDA+2*width_n} 
+
+M4 Dout jn7 gnd gnd CMOSN l={2*LAMBDA} w={width_n} 
++ ad={5*width_n*LAMBDA} as={5*width_n*LAMBDA} pd={10*LAMBDA+2*width_n} ps={10*LAMBDA+2*width_n} 
+
+M5 jn7 clk N015 gnd CMOSN l={2*LAMBDA} w={width_n} 
++ ad={5*width_n*LAMBDA} as={5*width_n*LAMBDA} pd={10*LAMBDA+2*width_n} ps={10*LAMBDA+2*width_n} 
+
+M6 jn5 mid N014 gnd CMOSN l={2*LAMBDA} w={width_n} 
++ ad={5*width_n*LAMBDA} as={5*width_n*LAMBDA} pd={10*LAMBDA+2*width_n} ps={10*LAMBDA+2*width_n} 
+
+M7 vdd in jn9 vdd CMOSP l={2*LAMBDA} w={2*width_p} 
++ ad={5*(2*width_p)*LAMBDA} as={5*(2*width_p)*LAMBDA} pd={10*LAMBDA+2*(2*width_p)} ps={10*LAMBDA+2*(2*width_p)}
+
+M8 jn9 clk mid vdd CMOSP l={2*LAMBDA} w={2*width_p} 
++ ad={5*(2*width_p)*LAMBDA} as={5*(2*width_p)*LAMBDA} pd={10*LAMBDA+2*(2*width_p)} ps={10*LAMBDA+2*(2*width_p)} 
+
+M9 vdd clk jn5 vdd CMOSP l={2*LAMBDA} w={width_p} 
++ ad={5*width_p*LAMBDA} as={5*width_p*LAMBDA} pd={10*LAMBDA+2*width_p} ps={10*LAMBDA+2*width_p}
+
+M10 vdd jn5 jn7 vdd CMOSP l={2*LAMBDA} w={width_p} 
++ ad={5*width_p*LAMBDA} as={5*width_p*LAMBDA} pd={10*LAMBDA+2*width_p} ps={10*LAMBDA+2*width_p}
+
+M11 vdd jn7 Dout vdd CMOSP l={2*LAMBDA} w={width_p} 
++ ad={5*width_p*LAMBDA} as={5*width_p*LAMBDA} pd={10*LAMBDA+2*width_p} ps={10*LAMBDA+2*width_p}
+
+.ends dff_pos
+
+
+* Putting inputs through dff
+x01 A0b clk A0 dff_pos
+x02 A1b clk A1 dff_pos
+x03 A2b clk A2 dff_pos
+x04 A3b clk A3 dff_pos
+x05 B0b clk B0 dff_pos
+x06 B1b clk B1 dff_pos
+x07 B2b clk B2 dff_pos
+x08 B3b clk B3 dff_pos
+x09 C0b clk C0 dff_pos
+
+
+x1 A3 B3 G3 nand
+x2 A2 B2 G2 nand
+x3 A1 B1 G1 nand
+x4 A0 B0 G0 nand
+
+x5 A3 B3 P3 nor
+x6 A2 B2 P2 nor
+x7 A1 B1 P1 nor
+x8 A0 B0 P0 nor
+
+x9 A3 B3 AxB3 xor
+x10 A2 B2 AxB2 xor
+x11 A1 B1 AxB1 xor
+x12 A0 B0 AxB0 xor
+
+x70 C0 C0not inv
+x711 P0 C0not c1b or
+x713 G0 c1b C1 nand
+
+x21 P1 G0 c2b or
+x23 G1 c2b c2midnand nand
+x24 P0 P1 c2midnor nor
+x25 C0 c2midnor c2midand and
+x26 c2midnand c2midand C2 or
+
+x31 P2 P1 c3midnor nor
+x33 P2 G1 c3midor or
+x34 G2 c3midor c3midnand nand
+x35 C1 c3midnor c3midand and
+x36 c3midnand c3midand C3 or
+
+x41 P3 P2 midnor nor
+x43 P3 G2 midor or
+x44 G3 midor midnand nand
+x45 c2midnand midnor midand and
+x46 midnand midand Gout or
+x47 c2midnor midnor Pout nand
+
+x900 Pout C0not c4b nor
+x901 Gout c4b C4 or
+x93 AxB3 C3 S3b xor
+x92 AxB2 C2 S2b xor
+x91 AxB1 C1 S1b xor
+x90 AxB0 C0 S0b xor
+
+
+* Outputs through dff
+x001 S0b clk S0 dff_pos
+x002 S1b clk S1 dff_pos
+x003 S2b clk S2 dff_pos
+x004 S3b clk S3 dff_pos
+x005 C4 clk Cout dff_pos
+
+.tran 0.01n 100n
+
+.IC v(S0)=0 v(S1)=0 v(Cout)=0 v(A0b)=0 v(A1b)=0 v(A2b)=0 v(A3b)=0 v(B0b)=0 v(B1b)=0 v(B2b)=0 v(B3b)=0
+.ic v(s2)=0 v(s3)=0 v(a1)=0 v(a0)=0 v(a2)=0 v(a3)=0
+.ic v(b0)=0 v(b1)=0 v(b2)=0 v(b3)=0
+.ic v(s0b)=0 v(s1b)=0 v(s2b)=0 v(s3b)=0 v(c0)=0
+
+
+
+.control
+set color0=white 
+set color1=black 
+
+run
+*plot 18+v(A3b) 20+v(A2b) 22+v(A1b) 24+v(A0b) 26+v(clk)
+plot 18+v(A3) 20+v(A2) 22+v(A1) 24+v(A0) 26+v(clk)
+plot v(C4) 2+v(S3b) 4+v(S2b) 6+v(S1b) 8+v(S0b) 
+*plot 10+v(B3b) 12+v(B2b) 14+v(B1b) 16+v(B0b) 
+plot v(Cout) 2+v(S3) 4+v(S2) 6+v(S1) 8+v(S0) 
+plot 10+v(B3) 12+v(B2) 14+v(B1) 16+v(B0) 
+
+
+.endc
